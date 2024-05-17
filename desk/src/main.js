@@ -18,6 +18,7 @@ import App from "./App.vue";
 import "./index.css";
 import { router } from "./router";
 import { socket } from "./socket";
+import translationPlugin from './translation'
 import { createToast } from "@/utils";
 
 const globalComponents = {
@@ -45,6 +46,7 @@ const pinia = createPinia();
 const app = createApp(App);
 
 app.use(resourcesPlugin);
+app.use(translationPlugin)
 app.use(pinia);
 app.use(router);
 

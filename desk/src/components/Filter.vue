@@ -1,7 +1,7 @@
 <template>
   <NestedPopover>
     <template #target>
-      <Button label="Filter">
+      <Button :label="__('Filter')">
         <template #prefix>
           <FilterIcon class="h-4" />
         </template>
@@ -73,7 +73,7 @@
             v-else
             class="mb-3 flex h-7 items-center px-3 text-sm text-gray-600"
           >
-            Empty - Choose a field to filter by
+            {{ __("Empty - Choose a field to filter by") }}
           </div>
           <div class="flex items-center justify-between gap-2">
             <Autocomplete
@@ -86,7 +86,7 @@
                 <Button
                   class="!text-gray-600"
                   variant="ghost"
-                  label="Add filter"
+                  :label="__('Add filter')"
                   @click="() => togglePopover()"
                 >
                   <template #prefix>

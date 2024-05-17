@@ -6,7 +6,7 @@
       </template>
       <template #right-header>
         <RouterLink :to="{ name: 'TicketAgentNew' }">
-          <Button label="Create" theme="gray" variant="solid">
+          <Button :label="__('Create')" theme="gray" variant="solid">
             <template #prefix>
               <LucidePlus class="h-4 w-4" />
             </template>
@@ -14,29 +14,16 @@
         </RouterLink>
       </template>
     </LayoutHeader>
-    <ViewControls
-      :filter="{ filters: filters, filterableFields: filterableFields.data }"
-      :sort="{ sorts: sorts, sortableFields: sortableFields.data }"
-      :column="{
+    <ViewControls :filter="{ filters: filters, filterableFields: filterableFields.data }"
+      :sort="{ sorts: sorts, sortableFields: sortableFields.data }" :column="{
         fields: fields,
         columns: columns,
-      }"
-      @event:sort="processSorts"
-      @event:filter="processFilters"
-      @event:column="processColumns"
-    />
-    <TicketsAgentList
-      :rows="tickets?.data?.data"
-      :columns="columns"
-      :page-length="pageLength"
-      :col-field-type="colFieldType"
-      :options="{
+      }" @event:sort="processSorts" @event:filter="processFilters" @event:column="processColumns" />
+    <TicketsAgentList :rows="tickets?.data?.data" :columns="columns" :page-length="pageLength"
+      :col-field-type="colFieldType" :options="{
         rowCount: tickets?.data?.row_count,
         totalCount: tickets?.data?.total_count,
-      }"
-      @update:page-length="updatePageLength"
-      @event:field-click="processFieldClick"
-    />
+      }" @update:page-length="updatePageLength" @event:field-click="processFieldClick" />
   </div>
 </template>
 
@@ -49,7 +36,7 @@ import { ViewControls, LayoutHeader } from "@/components";
 import { useUserStore } from "@/stores/user";
 const { getUser } = useUserStore();
 
-const breadcrumbs = [{ label: "Tickets", route: { name: "TicketsAgent" } }];
+const breadcrumbs = [{ label: __('Tickets'), route: { name: "TicketsAgent" } }];
 let storage = useStorage("tickets_agent", {
   filtersToApply: {},
   filters: [],
@@ -65,6 +52,7 @@ let rows = storage.value.rows ? storage.value.rows : [];
 
 let filtersToApply = storage.value.filtersToApply;
 let filters = ref(storage.value.filters);
+
 
 let sorts = ref(storage.value.sorts);
 let sortsToApply = storage.value.sortsToApply;
@@ -106,6 +94,10 @@ const tickets = createResource({
   },
   onSuccess(data) {
     columns = data.columns;
+    columns = columns.map((item, index) => {
+      item.label = __(item.label)
+      return item
+    })
     rows = data.rows;
   },
 });

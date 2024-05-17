@@ -3,12 +3,9 @@
     <div class="flex-none">
       <Dropdown :options="presetFilters">
         <template #default="{ open }">
-          <Button :label="currentPreset">
+          <Button :label="__(currentPreset)">
             <template #suffix>
-              <FeatherIcon
-                :name="open ? 'chevron-up' : 'chevron-down'"
-                class="h-4 text-gray-600"
-              />
+              <FeatherIcon :name="open ? 'chevron-up' : 'chevron-down'" class="h-4 text-gray-600" />
             </template>
           </Button>
         </template>
@@ -18,25 +15,16 @@
     <div class="grow"></div>
 
     <div class="flex-none px-1">
-      <Filter
-        :filters="filter.filters"
-        :filterable-fields="filter.filterableFields"
-        @event:filter="(e) => emitToParent(e, 'event:filter')"
-      />
+      <Filter :filters="filter.filters" :filterable-fields="filter.filterableFields"
+        @event:filter="(e) => emitToParent(e, 'event:filter')" />
     </div>
     <div class="pe-2 flex-none">
-      <Sort
-        :sortable-fields="sort.sortableFields"
-        :sorts="sort.sorts"
-        @event:sort="(e) => emitToParent(e, 'event:sort')"
-      />
+      <Sort :sortable-fields="sort.sortableFields" :sorts="sort.sorts"
+        @event:sort="(e) => emitToParent(e, 'event:sort')" />
     </div>
     <div class="flex-none px-1">
-      <ColumnSettings
-        :fields="column.fields"
-        :columns="column.columns"
-        @event:column="(e) => emitToParent(e, 'event:column')"
-      />
+      <ColumnSettings :fields="column.fields" :columns="column.columns"
+        @event:column="(e) => emitToParent(e, 'event:column')" />
     </div>
   </div>
 </template>
@@ -67,7 +55,7 @@ const props = defineProps({
 
 const presetFilters = [
   {
-    label: "All Tickets",
+    label: __("All Tickets"),
     onClick: (e) => {
       emitToParent(
         {
@@ -78,7 +66,7 @@ const presetFilters = [
     },
   },
   {
-    label: "My Open Tickets",
+    label: __("My Open Tickets"),
     onClick: (e) => {
       const preset = getPresetFilters("Open");
       emitToParent(
@@ -91,7 +79,7 @@ const presetFilters = [
     },
   },
   {
-    label: "My Replied Tickets",
+    label: __("My Replied Tickets"),
     onClick: (e) => {
       const preset = getPresetFilters("Replied");
       emitToParent(
@@ -104,7 +92,7 @@ const presetFilters = [
     },
   },
   {
-    label: "My Resolved Tickets",
+    label: __("My Resolved Tickets"),
     onClick: (e) => {
       const preset = getPresetFilters("Resolved");
       emitToParent(
@@ -117,7 +105,7 @@ const presetFilters = [
     },
   },
   {
-    label: "My Closed Tickets",
+    label: __("My Closed Tickets"),
     onClick: (e) => {
       const preset = getPresetFilters("Closed");
       emitToParent(
@@ -163,7 +151,7 @@ function emitToParent(data, event) {
     if (data.event === "clear") {
       currentPreset.value = "All Tickets";
     } else {
-      currentPreset.value = "Filtered Tickets";
+      currentPreset.value = data.data.filtersToApply.status[1];
     }
   }
   emit(event, data);
